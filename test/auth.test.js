@@ -41,4 +41,35 @@ describe('Bank Ledger auth routes', () => {
         expect(res.status).toEqual(400);
       });
   });
+
+  it('validates a successful login attemp', () => {
+    return request(app)
+      .post('/api/v1/auth/login')
+      .send({ username: 'test-name', password: 'test-password' })
+      .then(res => {
+        expect(res.status).toEqual(200);
+        expect(res.body).toEqual({
+          username: 'test-name',
+          balance: 0
+        });
+      });
+  });
+
+  it('rejects a login attempt for a nonexistant account', () => {
+    return request(app)
+      .post('/api/v1/auth/login')
+      .send({ username: 'some-account', password: 'test-password' })
+      .then(res => {
+        expect(res.status).toEqual(400);
+      });
+  });
+
+  it('rejects a login attempt with an incorrect password', () => {
+    return request(app)
+      .post('/api/v1/auth/login')
+      .send({ username: 'test-name', password: 'wrong-password' })
+      .then(res => {
+        expect(res.status).toEqual(400);
+      });
+  });
 });
