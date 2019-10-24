@@ -1,6 +1,8 @@
 const request = require('supertest');
 const app = require('../lib/app');
 
+process.env.NODE_ENV = 'test';
+
 describe('Bank Ledger auth routes', () => {
   it('creates a new account on signup', () => {
     return request(app)
