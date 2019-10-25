@@ -1,5 +1,7 @@
 const request = require('supertest');
 const app = require('../lib/app');
+const { getAgent } = require('./data-helpers');
+// const agent = request.agent('http://localhost:7890`');
 
 process.env.NODE_ENV = 'test';
 
@@ -9,11 +11,19 @@ describe('Bank Ledger auth routes', () => {
       .post('/api/v1/auth/signup')
       .send({ username: 'test-name', password: 'test-password' })
       .then(res => {
-        expect(res.status).toEqual(200);
         expect(res.body).toEqual({
           username: 'test-name',
           balance: 0
         });
+      });
+  });
+
+  it('verifies that a user if logged in', () => {
+    return getAgent()
+      .get('/api/v1/auth/verify')
+      .then(res => {
+        expect(res.status).toEqual(200);
+        expect(res.body).toEqual({ username: 'agent', balance: 0 });
       });
   });
 
