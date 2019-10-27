@@ -1,7 +1,6 @@
 const request = require('supertest');
 const app = require('../lib/app');
 const { getAgent } = require('./data-helpers');
-// const agent = request.agent('http://localhost:7890`');
 
 process.env.NODE_ENV = 'test';
 
