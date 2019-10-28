@@ -64,7 +64,62 @@ describe('Bank Ledger routes', () => {
       .then(res => {
         expect(res.body).toEqual({ 
           status: 400,
-          message: 'Please supply a number, under amount, for deposit.'
+          message: 'Please supply a number, under amount, for a deposit.'
+        });
+      });
+  });
+
+  it('Makes a withdrawal', () => {
+    return getAgent()
+      .post('/api/v1/ledger/withdrawal')
+      .send({ amount: 10 })
+      .then(res => {
+        expect(res.body).toEqual({ balance: 34.37 });
+      });
+  });
+
+  it('Makes a withdrawal with change involved', () => {
+    return getAgent()
+      .post('/api/v1/ledger/withdrawal')
+      .send({ amount: 10.10 })
+      .then(res => {
+        expect(res.body).toEqual({ balance: 24.27 });
+      });
+  });
+
+  it('Throws an error when a negative number is used for a deposit', () => {
+    return getAgent()
+      .post('/api/v1/ledger/withdrawal')
+      .send({ amount: -10.10 })
+      .then(res => {
+        expect(res.body).toEqual({ 
+          status: 400,
+          message: 'Cannot make withdrawal for less than $0.01.'
+        });
+      });
+  });
+
+  it('Throws an error when a non number is used for a deposit', () => {
+    return getAgent()
+      .post('/api/v1/ledger/withdrawal')
+      .send({ amount: '10.10' })
+      .then(res => {
+        expect(res.body).toEqual({ 
+          status: 400,
+          message: 'Please supply a number, under amount, for a withdrawal.'
+        });
+      });
+  });
+
+  it('Throws an error when the withdawal amount is greater than balance', () => {
+    return getAgent()
+      .post('/api/v1/ledger/withdrawal')
+      .send({ amount: 50.00 })
+      .then(res => {
+        expect(res.status).toEqual(400);
+        expect(res.body).toEqual({ 
+          status: 400,
+          message: 'You may not withdraw more than you have in you account.'
         });
       });
   });
