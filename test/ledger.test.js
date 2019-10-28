@@ -123,4 +123,25 @@ describe('Bank Ledger routes', () => {
         });
       });
   });
+
+  it('Gets a list of all transactions the user has made', () => {
+    return getAgent() 
+      .get('/api/v1/ledger/transactions')
+      .then(res => {
+        expect(res.status).toEqual(200);
+        expect(res.body).toEqual(expect.any(Array));
+        expect(res.body[0]).toEqual({
+          startingBalance: 34.37,
+          amount: 10.1,
+          type: 'Withdrawal',
+          endingBalance: 24.27
+        });
+        expect(res.body[4]).toEqual({
+          startingBalance: 0,
+          amount: 20,
+          type: 'Deposit',
+          endingBalance: 20
+        });
+      });
+  });
 });
