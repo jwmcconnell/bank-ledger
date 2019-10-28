@@ -1,5 +1,3 @@
-const request = require('supertest');
-const app = require('../lib/app');
 const { getAgent } = require('./data-helpers');
 
 process.env.NODE_ENV = 'test';
@@ -12,6 +10,61 @@ describe('Bank Ledger routes', () => {
         expect(res.status).toEqual(200);
         expect(res.body).toEqual({
           balance: 0
+        });
+      });
+  });
+
+  it('Makes a deposit', () => {
+    return getAgent()
+      .post('/api/v1/ledger/deposit')
+      .send({ amount: 20 })
+      .then(res => {
+        expect(res.status).toEqual(200);
+        expect(res.body).toEqual({ balance: 20.00 });
+      });
+  });
+
+  it('Makes a deposit with change involved', () => {
+    return getAgent()
+      .post('/api/v1/ledger/deposit')
+      .send({ amount: 14.37 })
+      .then(res => {
+        expect(res.status).toEqual(200);
+        expect(res.body).toEqual({ balance: 34.37 });
+      });
+  });
+
+  it('Ignores anything under a cent on a deposit', () => {
+    return getAgent()
+      .post('/api/v1/ledger/deposit')
+      .send({ amount: 10.0014235 })
+      .then(res => {
+        expect(res.status).toEqual(200);
+        expect(res.body).toEqual({ balance: 44.37 });
+      });
+  });
+
+  it('Throws an error when a negative number is used for a deposit', () => {
+    return getAgent()
+      .post('/api/v1/ledger/deposit')
+      .send({ amount: -10.25 })
+      .then(res => {
+        expect(res.status).toEqual(400);
+        expect(res.body).toEqual({ 
+          status: 400,
+          message: 'Cannot make deposit for less than $0.01.'
+        });
+      });
+  });
+
+  it('Throws an error when anything but a number used for a deposit', () => {
+    return getAgent()
+      .post('/api/v1/ledger/deposit')
+      .send({ amount: '10.25' })
+      .then(res => {
+        expect(res.body).toEqual({ 
+          status: 400,
+          message: 'Please supply a number, under amount, for deposit.'
         });
       });
   });
