@@ -17,7 +17,7 @@ describe('Bank Ledger routes', () => {
   it('Makes a deposit', () => {
     return getAgent()
       .post('/api/v1/ledger/deposit')
-      .send({ amount: 20 })
+      .send({ amount: 20.0099999 })
       .then(res => {
         expect(res.status).toEqual(200);
         expect(res.body).toEqual({ balance: 20.00 });
@@ -27,7 +27,7 @@ describe('Bank Ledger routes', () => {
   it('Makes a deposit with change involved', () => {
     return getAgent()
       .post('/api/v1/ledger/deposit')
-      .send({ amount: 14.37 })
+      .send({ amount: 14.3799 })
       .then(res => {
         expect(res.status).toEqual(200);
         expect(res.body).toEqual({ balance: 34.37 });
@@ -37,7 +37,7 @@ describe('Bank Ledger routes', () => {
   it('Ignores anything under a cent on a deposit', () => {
     return getAgent()
       .post('/api/v1/ledger/deposit')
-      .send({ amount: 10.0014235 })
+      .send({ amount: 10.0099235 })
       .then(res => {
         expect(res.status).toEqual(200);
         expect(res.body).toEqual({ balance: 44.37 });
@@ -47,7 +47,7 @@ describe('Bank Ledger routes', () => {
   it('Throws an error when a negative number is used for a deposit', () => {
     return getAgent()
       .post('/api/v1/ledger/deposit')
-      .send({ amount: -10.25 })
+      .send({ amount: -10.259 })
       .then(res => {
         expect(res.status).toEqual(400);
         expect(res.body).toEqual({ 
@@ -72,7 +72,7 @@ describe('Bank Ledger routes', () => {
   it('Makes a withdrawal', () => {
     return getAgent()
       .post('/api/v1/ledger/withdrawal')
-      .send({ amount: 10 })
+      .send({ amount: 10.009999 })
       .then(res => {
         expect(res.body).toEqual({ balance: 34.37 });
       });
@@ -81,7 +81,7 @@ describe('Bank Ledger routes', () => {
   it('Makes a withdrawal with change involved', () => {
     return getAgent()
       .post('/api/v1/ledger/withdrawal')
-      .send({ amount: 10.10 })
+      .send({ amount: 10.109999 })
       .then(res => {
         expect(res.body).toEqual({ balance: 24.27 });
       });
