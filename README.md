@@ -42,8 +42,12 @@ If you need to update `npm`, you can make it using `npm`! Cool right? After runn
 ## Install
 
     $ git clone https://github.com/jwmcconnell/bank-ledger
-    $ cd bank-ledger-cli
+    $ cd bank-ledger
     $ npm i
+
+## Configuration
+
+To configure json web tokens, use the .env-example file to create your own .env file.
 
 ## Running the project
 
