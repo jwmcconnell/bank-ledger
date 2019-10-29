@@ -134,13 +134,15 @@ describe('Bank Ledger routes', () => {
           startingBalance: 34.37,
           amount: 10.1,
           type: 'Withdrawal',
-          endingBalance: 24.27
+          endingBalance: 24.27,
+          date: expect.any(String)
         });
         expect(res.body[4]).toEqual({
           startingBalance: 0,
           amount: 20,
           type: 'Deposit',
-          endingBalance: 20
+          endingBalance: 20,
+          date: expect.any(String)
         });
       });
   });
