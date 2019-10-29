@@ -57,7 +57,7 @@ To configure json web tokens, use the .env-example file to create your own .env 
 
     $ npm run start:watch
 
-## Running the project test
+## Running the project tests
 
     $ npm run test
 
