@@ -119,7 +119,7 @@ describe('Bank Ledger routes', () => {
         expect(res.status).toEqual(400);
         expect(res.body).toEqual({ 
           status: 400,
-          message: 'You may not withdraw more than you have in you account.'
+          message: 'You may not withdraw more than you have in your account.'
         });
       });
   });
