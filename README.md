@@ -1,6 +1,6 @@
 # Bank Ledger
 
-This is a simulated bank ledger bank end implemented with no persistant storage. There is a CLI to interact with it at the [bank-ledger-cli](https://github.com/jwmcconnell/bank-ledger-cli/) repo.
+This is a simulated bank ledger back end implemented with no persistant storage. There is a CLI to interact with it at the [bank-ledger-cli](https://github.com/jwmcconnell/bank-ledger-cli/) repo.
 
 ---
 ## Requirements
