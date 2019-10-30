@@ -83,4 +83,17 @@ describe('Bank Ledger auth routes', () => {
         expect(res.status).toEqual(400);
       });
   });
+
+  it('Logs the user out and verifies', () => {
+    return getAgent()
+      .get('/api/v1/auth/log-out')
+      .then(res => {
+        expect(res.status).toEqual(200);
+        return getAgent()
+          .get('/api/v1/auth/verify');
+      })
+      .then(res => {
+        expect(res.status).toEqual(401);
+      });
+  });
 });
